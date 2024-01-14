@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 2.8)
+project(wizscan3)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(OpenCV REQUIRED)
+#find_package(Boost COMPONENTS system filesystem REQUIRED REQUIRED)
+find_package(CUDA REQUIRED)
+#find_package(OpenCV REQUIRED)
+#find_package(Boost COMPONENTS system filesystem REQUIRED REQUIRED)
+#find_package(CUDA REQUIRED)
+#set(OpenCV_LIBS "opencv_core opencv_imgproc")
+find_package(AWSSDK REQUIRED COMPONENTS s3 email)
+include_directories(${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${CUDA_INCLUDE_DIRS})
+add_executable(wizscan3 main.cpp WizScan3App.cpp wizscanendpoint.cpp gpumatcher.cpp appcontext.cpp)
+target_link_libraries(wizscan3 ${AWSSDK_LINK_LIBRARIES} libpistache.a pthread ${OpenCV_LIBS} ${CUDA_LIBRARIES})
+
+
+#target_link_libraries(test2 ${OpenCV_LIBS} ${Boost_LIBRARIES} ${CUDA_LIBRARIES} )
+
+install(TARGETS wizscan3 RUNTIME DESTINATION bin)
